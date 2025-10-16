@@ -1,5 +1,6 @@
 import React from "react";
 import img from "../assets/registration.png";
+import { Link } from "react-router";
 
 const Register = () => {
   return (
@@ -49,7 +50,9 @@ const Register = () => {
               </button>
               <p className="mt-[30px] text-[#03014C] text-[16px] font-primary font-normal">
                 Already have an account?{" "}
+                <Link to="/login">
                 <span className="text-[#EA6C00] cursor-pointer">Sign In</span>
+                </Link>
               </p>
             </div>
           </div>

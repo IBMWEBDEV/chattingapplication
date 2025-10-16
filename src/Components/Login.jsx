@@ -1,6 +1,7 @@
 import React from "react";
 import login from "../assets/login.png";
 import google from "../assets/google.png";
+import { Link } from "react-router";
 
 const Login = () => {
   return (
@@ -42,8 +43,9 @@ const Login = () => {
                 Login to Continue
               </button>
               <p className="mt-[30px] text-[#03014C] text-[16px] font-primary font-normal">
-                Don’t have an account?{" "}
-                <span className="text-[#EA6C00] cursor-pointer">Sign up</span>
+                Don’t have an account?
+                <Link to="/registration">
+                <span className="text-[#EA6C00] cursor-pointer">Sign up</span></Link>
               </p>
             </div>
           </div>
