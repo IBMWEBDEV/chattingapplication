@@ -7,6 +7,7 @@ import { initializeApp } from "firebase/app";
 const firebaseConfig = {
   apiKey: "AIzaSyB9nOrl5bkhHOO_M8cICvakj6TQFdjOfZw",
   authDomain: "chattingapplication-be0b0.firebaseapp.com",
+  databaseURL: "https://chattingapplication-be0b0-default-rtdb.firebaseio.com",
   projectId: "chattingapplication-be0b0",
   storageBucket: "chattingapplication-be0b0.firebasestorage.app",
   messagingSenderId: "806894685579",
@@ -16,3 +17,5 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export default firebaseConfig
+
+
