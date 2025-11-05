@@ -4,9 +4,27 @@ import { SlHome } from "react-icons/sl";
 import { AiFillMessage } from "react-icons/ai";
 import { IoSettingsOutline } from "react-icons/io5";
 import { ImExit } from "react-icons/im";
+import { useNavigate } from 'react-router';
+import { getAuth, signOut } from "firebase/auth";
 const Sidebar = () => {
+const auth = getAuth();
+const navigate = useNavigate()
+
+
+    const logout = () =>{
+        console.log("done");
+        
+        signOut(auth).then(() => {
+            navigate("/login")
+            localStorage.clear()
+}).catch((error) => {
+  // An error happened.
+});
+    }
+
+
     return (
-        <div className='bg-primary font-primary w-[186px] h-[] h-screen m-[35px] rounded-lg'>
+        <div className='bg-primary font-primary w-[186px] h-[] h-screen  rounded-lg'>
             <div className='flex justify-center '>
                 <img className='mt-[38px] ' src={profile} alt="" />
             </div>
@@ -21,7 +39,7 @@ const Sidebar = () => {
                 <IoSettingsOutline className='text-5xl text-[#FFFFFFB2]' />
             </div>
             <div className='flex justify-center mt-[334px]'>
-                <ImExit className='text-5xl text-[#FFFFFF]' />
+                <ImExit onClick={logout} className='text-5xl text-[#FFFFFF] cursor-pointer' />
             </div>
             
         </div>

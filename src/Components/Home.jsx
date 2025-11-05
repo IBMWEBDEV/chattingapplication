@@ -1,10 +1,15 @@
-import React, {  useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Sidebar from './Sidebar/Sidebar';
-
+import GroupList from './GroupList/GroupList';
+import Friends from './Friends/Friends';
+import UserList from './UserList/UserList';
+import FriendRequest from './FriendRequest/FriendRequest';
+import MyGroups from './MyGroups/MyGroups';
+import BlockedUsers from './BlockedUsers/BlockedUsers';
 
 const Home = () => {
   const auth = getAuth();
@@ -13,15 +18,15 @@ const Home = () => {
   console.log(data);
 
   const [veryfi, setVeryfi] = useState(false)
-  const [loading,setLoading] = useState (true)
+  const [loading, setLoading] = useState(true)
 
 
 
-useEffect(()=> {
-if (!data) {
-  navigate("/login")
-}
-})
+  useEffect(() => {
+    if (!data) {
+      navigate("/login")
+    }
+  })
 
 
 
@@ -47,8 +52,31 @@ if (!data) {
       {
         veryfi ?
           <div>
-            <Sidebar />
+            <div className='flex m-[35px]'>
+              <Sidebar />
+              <div className='w-[427px] ml-[43px]'>
+                <GroupList />
+                <FriendRequest/>
+              </div>
+
+              <div className='w-[427px] ml-[43px]'>
+                <Friends />
+                <MyGroups/>
+              </div>
+
+              <div className='w-[427px] ml-[43px]'>
+                <UserList />
+                <BlockedUsers/>
+              </div>
+
+
+          
+                
+    
+
+            </div>
           </div>
+
           :
           <div className='bg-primary h-screen flex justify-center
               items-center text-white font-primary text-center'>

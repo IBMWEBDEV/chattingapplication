@@ -162,7 +162,7 @@ transition={Bounce}
                 value={password}
                 placeholder="Password"
               />
-              <div className="absolute top-[40%] right-[90px]">
+              <div className="absolute top-[40%] right-[150px]">
                 {
                   show ? <FaEye onClick={() => setShow(!show)} /> : <FaEyeSlash onClick={() => setShow(!show)} />
                 }

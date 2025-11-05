@@ -1,95 +1,120 @@
-import React, { useState } from "react";
-
-// ✅ ForgotPassword Component — fully responsive and ready for chat app
-// Use Tailwind CSS for styling
-
-export default function ForgotPassword() {
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { useState } from "react";
+import { Link } from "react-router";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import { RotatingLines } from 'react-loader-spinner'
+const Forgote = () => {
+  const auth = getAuth();
   const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setMessage("");
-    setError("");
+  const handleemail = (event) => {
+    setEmail(event.target.value);
+    setEmailError("");
+  };
 
-    if (!email.trim()) {
-      setError("Please enter your email address");
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      // Example API call (replace with your real endpoint)
-      const res = await fetch("/api/auth/forgot-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || "Something went wrong");
+  const handleForgote = () => {
+    if (!email) {
+      setEmailError("currect email requerd");
+    } else {
+      if (
+        !/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/.test(
+          email
+        )
+      ) {
+        setEmailError("give your right email");
       }
-
-      setMessage(data.message || "Password reset link sent to your email.");
-      setEmail("");
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    }
+    if (
+      email &&
+      /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/.test(
+        email)) {
+          setLoading (true)
+      sendPasswordResetEmail(auth, email)
+        .then((user) => {
+          console.log(user);
+         
+          setTimeout(() => {
+             toast.success("please chack email & reset your password");
+          }, 1000);
+          setLoading(false)
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+        });
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50 p-4">
-      <div className="bg-white shadow-lg rounded-2xl p-6 w-full max-w-md">
-        <h2 className="text-2xl font-semibold text-center mb-4 text-gray-800">
+    <div className="bg-black h-screen w-full flex items-center justify-center">
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Bounce}
+      />
+      <div className="bg-white relative md:w-[500px] rounded-2xl px-10 py-12 shadow-lg">
+        <h1 className="font-bold text-[25px] text-center mb-6">
           Forgot Password
-        </h2>
-        <p className="text-sm text-gray-500 text-center mb-6">
-          Enter your registered email to receive a reset link.
-        </p>
+        </h1>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-gray-700 text-sm mb-1">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full border border-gray-300 rounded-xl p-2 focus:ring-2 focus:ring-indigo-400 focus:outline-none"
-              placeholder="Enter your email"
-              required
+        <div className="relative mb-6">
+          <input
+            type="email"
+            value={email}
+            onChange={handleemail}
+            placeholder="Email Address"
+            className="border-2 outline-0 w-full py-3 px-4 rounded-lg"
+          />
+          <p className="text-[13px] text-[#11175D] absolute -top-3 left-5 bg-white px-1">
+            Email Address
+          </p>
+          <p className="mt-7 w-[250px]  text-center rounded-3xl text-red-500 font-bold">
+            {emailError}
+          </p>
+        </div>
+
+        <div>
+          {loading ? (
+         <div className="ml-14">
+             <RotatingLines
+              visible={true}
+              height="50"
+              width="50"
+              color="black"
+              strokeWidth="5"
+              animationDuration="0.75"
+              ariaLabel="rotating-lines-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
             />
-          </div>
-
-          {error && (
-            <p className="text-red-500 text-sm bg-red-50 p-2 rounded-md">{error}</p>
+         </div>
+          ) : (
+            <button
+              onClick={handleForgote}
+              className="bg-black cursor-pointer text-white w-60 py-3 rounded-lg font-semibold hover:bg-gray-800 transition"
+            >
+              Reset Password
+            </button>
           )}
-          {message && (
-            <p className="text-green-600 text-sm bg-green-50 p-2 rounded-md">{message}</p>
-          )}
+        </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-indigo-600 text-white py-2 rounded-xl hover:bg-indigo-700 disabled:opacity-60"
-          >
-            {loading ? "Sending..." : "Send Reset Link"}
-          </button>
-        </form>
-
-        <button
-          onClick={() => window.history.back()}
-          className="mt-4 w-full border border-gray-300 text-gray-600 py-2 rounded-xl hover:bg-gray-100"
-        >
-          Back to Login
+        <button className="bg-black cursor-pointer text-white w-60 py-3 mt-5 rounded-lg font-semibold hover:bg-gray-800 transition">
+          <Link to="/login">Go back</Link>
         </button>
       </div>
     </div>
   );
-}
+};
+
+export default Forgote;

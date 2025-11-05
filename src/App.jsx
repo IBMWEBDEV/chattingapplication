@@ -3,7 +3,7 @@ import { RouterProvider } from "react-router/dom";
 import Registration from "./Components/Registration";
 import Login from "./Components/Login";
 import firebaseConfig from "./Components/firebase/firebaseConfig";
-// import Forgote from "./Components/Forgote";
+import Forgote from "./Components/Forgote";
 import Home from "./Components/Home";
 
 function App() {
@@ -20,10 +20,10 @@ function App() {
     path: "/home",
     element: <Home/>,
   },
-  //  {
-  //   path: "/forgote",
-  //   element: <Forgote/>,
-  // },
+   {
+    path: "/forgote",
+    element: <Forgote/>,
+  },
    
   
 ]);
