@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { Bounce, ToastContainer, toast } from 'react-toastify';
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth";
 import { getDatabase, ref, set } from "firebase/database";
 const Register = () => {
   const navigate = useNavigate()
@@ -64,13 +64,16 @@ const Register = () => {
       createUserWithEmailAndPassword(auth, email, password)
         .then((user) => {
           console.log(user);
+          updateProfile(auth.currentUser, {
+            displayName: "Jane Q. User", 
+          })
           sendEmailVerification(auth.currentUser)
           toast.success("sign in successful & veryfi your email")
-           set(ref(db, 'users/' + user.user.uid), {
-    username: name,
-    email: email,
-    password:password
-  });
+          set(ref(db, 'users/' + user.user.uid), {
+            username: name,
+            email: email,
+            password: password
+          });
           setTimeout(() => {
             navigate("/login")
           }, 5000);
@@ -93,20 +96,20 @@ const Register = () => {
 
   return (
     <div className="flex items-center justify-center bg-white h-screen">
-     <ToastContainer
-position="top-center"
-autoClose={5000}
-limit={1}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick={false}
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-theme="colored"
-transition={Bounce}
-/>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        limit={1}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Bounce}
+      />
       <div className="flex items-center justify-center w-[1200px]">
         <div className="w-50%flex justify-end">
           <div className="mr-[70px]">
