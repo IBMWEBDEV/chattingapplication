@@ -71,7 +71,7 @@ const Login = () => {
           console.log(user);
 
           toast.success("Login successfully done")
-          dispatcs(unserInfo(user.user))
+          dispatcs(unserInfo(user))
           localStorage.setItem("userInfo", JSON.stringify(user))
           setTimeout(() => {
 

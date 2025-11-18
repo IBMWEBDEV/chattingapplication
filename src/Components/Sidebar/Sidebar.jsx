@@ -10,13 +10,13 @@ import { useSelector } from 'react-redux';
 
 
 const Sidebar = () => {
-    const data = useSelector((selector) => selector.userInfo.value.user)
+    const data = useSelector((selector) => selector.userInfo.value?.user)
     const auth = getAuth();
     const navigate = useNavigate()
 
     const logout = () => {
         signOut(auth).then(() => {
-            localStorage.clear()
+            localStorage.removeItem("userInfo")
             navigate("/login")
         }).catch((error) => { });
     }
@@ -28,7 +28,7 @@ const Sidebar = () => {
                 <img src={profile} alt="" />
             </div>
             <div className='flex justify-center mt-2 text-xl font-bold'>
-                <p>{data?.displayName}</p>
+                <p>{data?.displayName || data?.user?.displayName}</p>
             </div>
 
             <div className='flex justify-center mt-[38px]  bg-white py-[22px] w-[162px] h-[90px] ml-6 rounded-tl-[20px] rounded-bl-[20px] relative after:content-[""] after:absolute after:w-[8px] after:h-[90px] after:bg-black after:rounded-tl-[25px] after:rounded-bl-[25px] after:top-0 after:right-0 

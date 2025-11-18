@@ -65,7 +65,7 @@ const Register = () => {
         .then((user) => {
           console.log(user);
           updateProfile(auth.currentUser, {
-            displayName: "Jane Q. User", 
+            displayName: name, 
           })
           sendEmailVerification(auth.currentUser)
           toast.success("sign in successful & veryfi your email")
