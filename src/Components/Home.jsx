@@ -53,7 +53,7 @@ const Home = () => {
         veryfi ?
           <div>
             <div className='flex m-[35px]'>
-              <Sidebar />
+              <Sidebar active="home " />
               <div className='w-[427px] ml-[43px]'>
                 <GroupList />
                 <FriendRequest/>

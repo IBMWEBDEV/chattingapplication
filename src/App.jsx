@@ -5,6 +5,7 @@ import Login from "./Components/Login";
 import firebaseConfig from "./Components/firebase/firebaseConfig";
 import Forgote from "./Components/Forgote";
 import Home from "./Components/Home";
+import Message from "./Components/Message/Message";
 
 function App() {
   const router = createBrowserRouter([
@@ -23,6 +24,11 @@ function App() {
    {
     path: "/forgote",
     element: <Forgote/>,
+  },
+
+   {
+    path: "/msg",
+    element: <Message/>,
   },
    
   
